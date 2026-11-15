@@ -1,0 +1,55 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="Script" path="res://scripts/background.gd" id="2_background"]
+[ext_resource type="PackedScene" path="res://scenes/bird.tscn" id="3_bird"]
+[ext_resource type="Script" path="res://scripts/ground.gd" id="4_ground"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="5_ui"]
+[ext_resource type="AudioStream" path="res://audio/flap.wav" id="6_flap"]
+[ext_resource type="AudioStream" path="res://audio/score.wav" id="7_score"]
+[ext_resource type="AudioStream" path="res://audio/hit.wav" id="8_hit"]
+[ext_resource type="AudioStream" path="res://audio/die.wav" id="9_die"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(336, 96)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("2_background")
+
+[node name="Pipes" type="Node2D" parent="."]
+
+[node name="Bird" parent="." instance=ExtResource("3_bird")]
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(144, 416)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("4_ground")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Flap" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -7.0
+stream = ExtResource("6_flap")
+
+[node name="Score" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -6.0
+stream = ExtResource("7_score")
+
+[node name="Hit" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -5.0
+stream = ExtResource("8_hit")
+
+[node name="Die" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -8.0
+stream = ExtResource("9_die")
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_ui")
